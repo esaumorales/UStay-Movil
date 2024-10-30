@@ -52,12 +52,12 @@ class CustomFooter extends StatelessWidget {
             ? Matrix4.translationValues(0, -10, 0)
             : Matrix4.identity(),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.orange : Colors.transparent,
+          color: isSelected ? const Color(0xFFE9E9E9) : Colors.transparent,
           shape: BoxShape.circle,
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.orange.withOpacity(0.5),
+                    color: const Color(0xFF000000).withOpacity(0.5),
                     blurRadius: 15,
                     offset: Offset(0, 3),
                   ),
@@ -71,7 +71,7 @@ class CustomFooter extends StatelessWidget {
               : 28, // Tamaño más grande para el ícono seleccionado
           height: isSelected ? 42 : 28,
           color: isSelected
-              ? Colors.white
+              ? Colors.orange
               : Colors.black, // Color blanco para el ícono seleccionado
         ),
       ),
