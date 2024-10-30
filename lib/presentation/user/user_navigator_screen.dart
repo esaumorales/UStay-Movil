@@ -1,30 +1,27 @@
-// UserDashboardScreen
 import 'package:flutter/material.dart';
 import 'package:myapp/core/utils/navigation_utils.dart';
-import 'package:myapp/core/widgets/custom_footer.dart';
 import 'package:myapp/core/widgets/custom_header.dart';
-import 'package:myapp/presentation/user/user_bag_screen.dart';
+import 'package:myapp/core/widgets/custom_footer.dart';
+import 'package:myapp/presentation/user/user_dashboard_screen.dart';
 import 'package:myapp/presentation/user/user_favorite_screen.dart';
-import 'package:myapp/presentation/user/user_navigator_screen.dart';
+import 'package:myapp/presentation/user/user_bag_screen.dart';
 import 'package:myapp/presentation/user/user_person_screen.dart';
 
-class UserDashboardScreen extends StatefulWidget {
+class UserNavigatorScreen extends StatefulWidget {
   @override
-  _UserDashboardScreenState createState() => _UserDashboardScreenState();
+  _UserNavigatorScreenState createState() => _UserNavigatorScreenState();
 }
 
-class _UserDashboardScreenState extends State<UserDashboardScreen> {
-  int _currentIndex = 2; // Dashboard es el icono central
+class _UserNavigatorScreenState extends State<UserNavigatorScreen> {
+  int _currentIndex = 0;
 
   void _onIconTap(int index) {
     setState(() {
       _currentIndex = index;
     });
-
-    // Navega según el índice seleccionado
     switch (index) {
       case 0:
-        navigateWithoutAnimation(context, UserNavigatorScreen());
+        navigateWithoutAnimation(context, UserNavigatorScreen()); // Cambia a la pantalla que deseas
         break;
       case 1:
         navigateWithoutAnimation(context, UserBagScreen());
@@ -33,10 +30,10 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
         navigateWithoutAnimation(context, UserDashboardScreen());
         break;
       case 3:
-        navigateWithoutAnimation(context, UserFavoriteScreen());
+        navigateWithoutAnimation(context, UserFavoriteScreen()); // Cambia a la pantalla que deseas
         break;
       case 4:
-        navigateWithoutAnimation(context, UserPersonScreen());
+        navigateWithoutAnimation(context, UserPersonScreen()); // Cambia a la pantalla que deseas
         break;
     }
   }
@@ -45,14 +42,14 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHeader(
-        title: "Dashboard",
+        title: "Navigator",
         onNotificationTap: () {},
         onGridTap: () {},
         onSearchTap: () {},
         onTuneTap: () {},
       ),
       body: Center(
-        child: Text("Aquí irán las Cards"),
+        child: Text("Aquí irán las opciones de navegación"),
       ),
       bottomNavigationBar: CustomFooter(
         currentIndex: _currentIndex,

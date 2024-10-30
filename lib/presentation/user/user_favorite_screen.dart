@@ -1,9 +1,12 @@
 // lib/presentation/user/user_favorite_screen.dart
 import 'package:flutter/material.dart';
-import 'package:myapp/core/utils/navigation_utils.dart'; // Importa la función de navegación
+import 'package:myapp/core/utils/navigation_utils.dart';
+import 'package:myapp/presentation/user/user_bag_screen.dart';
 import 'package:myapp/presentation/user/user_dashboard_screen.dart';
 import 'package:myapp/core/widgets/custom_header.dart';
 import 'package:myapp/core/widgets/custom_footer.dart';
+import 'package:myapp/presentation/user/user_navigator_screen.dart';
+import 'package:myapp/presentation/user/user_person_screen.dart';
 
 class UserFavoriteScreen extends StatefulWidget {
   @override
@@ -11,7 +14,7 @@ class UserFavoriteScreen extends StatefulWidget {
 }
 
 class _UserFavoriteScreenState extends State<UserFavoriteScreen> {
-  int _currentIndex = 1;
+  int _currentIndex = 3; // Cambiamos el índice a 3 para el icono de favoritos
 
   void _onIconTap(int index) {
     setState(() {
@@ -20,19 +23,19 @@ class _UserFavoriteScreenState extends State<UserFavoriteScreen> {
     // Usa la función de navegación sin animación
     switch (index) {
       case 0:
-        // navigateWithoutAnimation(context, HomeScreen()); // Cambia a la pantalla que deseas
+        navigateWithoutAnimation(context, UserNavigatorScreen());
         break;
       case 1:
-        navigateWithoutAnimation(context, UserFavoriteScreen());
+        navigateWithoutAnimation(context, UserBagScreen());
         break;
       case 2:
         navigateWithoutAnimation(context, UserDashboardScreen());
         break;
       case 3:
-        // navigateWithoutAnimation(context, MessagesScreen()); // Cambia a la pantalla que deseas
+        navigateWithoutAnimation(context, UserFavoriteScreen()); // Pantalla actual
         break;
       case 4:
-        // navigateWithoutAnimation(context, ProfileScreen()); // Cambia a la pantalla que deseas
+        navigateWithoutAnimation(context, UserPersonScreen());
         break;
     }
   }

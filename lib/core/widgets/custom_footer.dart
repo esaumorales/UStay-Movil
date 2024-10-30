@@ -12,64 +12,67 @@ class CustomFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          height: 70,
-          decoration: BoxDecoration(
-            color: Color(0xFFF6F6F6),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, -2),
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      height: 70,
+      decoration: BoxDecoration(
+        color: Color(0xFFF6F6F6),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(0, -2),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildIcon(Icons.book_outlined, 0, '/home'),
-              _buildIcon(Icons.shopping_bag_outlined, 1, '/userFavorites'),
-              SizedBox(width: 40), // Espacio para el botón central
-              _buildIcon(Icons.favorite_outline, 3, '/messages'),
-              _buildIcon(Icons.person_outline, 4, '/profile'),
-            ],
-          ),
-        ),
-        Positioned(
-          bottom: 35,
-          child: FloatingActionButton(
-            backgroundColor: currentIndex == 2 ? Colors.orange : Colors.grey,
-            elevation: 5,
-            child: Icon(
-              Icons.home,
-              color: Colors.white,
-              size: 30,
-            ),
-            onPressed: () => onTap(2),
-          ),
-        ),
-      ],
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildIcon('assets/icons/icon-navigator.png', 0),
+          _buildIcon('assets/icons/icon-buy.png', 1),
+          _buildIcon('assets/icons/icon-home.png', 2, isCentralIcon: true),
+          _buildIcon('assets/icons/icon-favorite.png', 3),
+          _buildIcon('assets/icons/icon-person.png', 4),
+        ],
+      ),
     );
   }
 
-  Widget _buildIcon(IconData icon, int index, String route) {
+  Widget _buildIcon(String assetPath, int index, {bool isCentralIcon = false}) {
+    bool isSelected = currentIndex == index;
+
     return GestureDetector(
       onTap: () => onTap(index),
-      child: Container(
-        padding: EdgeInsets.all(8),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        padding: EdgeInsets.all(isSelected ? 6 : 8),
+        // Removimos el `margin` y usamos `transform` para elevar el ícono
+        transform: isSelected
+            ? Matrix4.translationValues(0, -10, 0)
+            : Matrix4.identity(),
         decoration: BoxDecoration(
-          color: currentIndex == index ? Colors.orange.withOpacity(0.2) : Colors.transparent,
+          color: isSelected ? Colors.orange : Colors.transparent,
           shape: BoxShape.circle,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: Colors.orange.withOpacity(0.5),
+                    blurRadius: 15,
+                    offset: Offset(0, 3),
+                  ),
+                ]
+              : [],
         ),
-        child: Icon(
-          icon,
-          color: currentIndex == index ? Colors.orange : Colors.black,
-          size: 28,
+        child: Image.asset(
+          assetPath,
+          width: isSelected
+              ? 42
+              : 28, // Tamaño más grande para el ícono seleccionado
+          height: isSelected ? 42 : 28,
+          color: isSelected
+              ? Colors.white
+              : Colors.black, // Color blanco para el ícono seleccionado
         ),
       ),
     );
