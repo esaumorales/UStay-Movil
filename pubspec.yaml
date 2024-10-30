@@ -1,5 +1,5 @@
 name: myapp
-description: "A new Flutter project."
+description: "A new App UStay"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -30,10 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  
+  google_fonts:
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
@@ -52,7 +50,18 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    #Images
+    - assets/images/common/app-logo.png
+    - assets/images/common/app-logo-dashboard.png
+    - assets/images/common/google-logo.png
+    - assets/images/common/facebook-logo.png
+    #ICons
+    - assets/icons/icon-home.png
+    - assets/icons/icon-buy.png
+    - assets/icons/icon-navigator.png
+    - assets/icons/icon-favorite.png
+    - assets/icons/icon-person.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
