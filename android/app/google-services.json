@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "122994627340",
+    "project_id": "ustay-a0a9b",
+    "storage_bucket": "ustay-a0a9b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122994627340:android:9e4042617fed7e49c12f29",
+        "android_client_info": {
+          "package_name": "com.ustay.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpwg5ZdhFa8PwwQKtyFLo6LTxNUUdoayo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

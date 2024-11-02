@@ -1,3 +1,4 @@
+// custom_footer.dart
 import 'package:flutter/material.dart';
 
 class CustomFooter extends StatelessWidget {
@@ -47,7 +48,6 @@ class CustomFooter extends StatelessWidget {
         duration: Duration(milliseconds: 300),
         curve: Curves.easeOut,
         padding: EdgeInsets.all(isSelected ? 6 : 8),
-        // Removimos el `margin` y usamos `transform` para elevar el ícono
         transform: isSelected
             ? Matrix4.translationValues(0, -10, 0)
             : Matrix4.identity(),
@@ -66,13 +66,9 @@ class CustomFooter extends StatelessWidget {
         ),
         child: Image.asset(
           assetPath,
-          width: isSelected
-              ? 42
-              : 28, // Tamaño más grande para el ícono seleccionado
+          width: isSelected ? 42 : 28,
           height: isSelected ? 42 : 28,
-          color: isSelected
-              ? Colors.orange
-              : Colors.black, // Color blanco para el ícono seleccionado
+          color: isSelected ? Colors.orange : Colors.black,
         ),
       ),
     );

@@ -1,24 +1,27 @@
+// user_navigator_screen.dart
 import 'package:flutter/material.dart';
 import 'package:myapp/core/utils/navigation_utils.dart';
-import 'package:myapp/core/widgets/custom_header.dart';
 import 'package:myapp/core/widgets/custom_footer.dart';
-import 'package:myapp/presentation/user/user_dashboard_screen.dart';
-import 'package:myapp/presentation/user/user_favorite_screen.dart';
-import 'package:myapp/presentation/user/user_navigator_screen.dart';
-import 'package:myapp/presentation/user/user_bag_screen.dart';
+import 'package:myapp/core/widgets/custom_header.dart';
+import 'package:myapp/presentation/user/screens/user_bag_screen.dart';
+import 'package:myapp/presentation/user/screens/user_dashboard_screen.dart';
+import 'package:myapp/presentation/user/screens/user_favorite_screen.dart';
+import 'package:myapp/presentation/user/screens/user_person_screen.dart';
 
-class UserPersonScreen extends StatefulWidget {
+class UserNavigatorScreen extends StatefulWidget {
   @override
-  _UserPersonScreenState createState() => _UserPersonScreenState();
+  _UserNavigatorScreenState createState() => _UserNavigatorScreenState();
 }
 
-class _UserPersonScreenState extends State<UserPersonScreen> {
-  int _currentIndex = 4; // Ícono de "Person" como seleccionado
+class _UserNavigatorScreenState extends State<UserNavigatorScreen> {
+  int _currentIndex = 0; // Posición de "Explora" en el footer
 
   void _onIconTap(int index) {
     setState(() {
       _currentIndex = index;
     });
+
+    // Navega según el índice seleccionado
     switch (index) {
       case 0:
         navigateWithoutAnimation(context, UserNavigatorScreen());
@@ -42,14 +45,14 @@ class _UserPersonScreenState extends State<UserPersonScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHeader(
-        title: "Profile",
+        title: "Explora",
         onNotificationTap: () {},
         onGridTap: () {},
         onSearchTap: () {},
         onTuneTap: () {},
       ),
       body: Center(
-        child: Text("Aquí irán los detalles del perfil del usuario"),
+        child: Text("Explora contenido en la aplicación."),
       ),
       bottomNavigationBar: CustomFooter(
         currentIndex: _currentIndex,

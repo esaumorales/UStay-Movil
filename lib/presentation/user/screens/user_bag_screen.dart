@@ -1,26 +1,28 @@
-// lib/presentation/user/user_favorite_screen.dart
+// user_bag_screen.dart
 import 'package:flutter/material.dart';
 import 'package:myapp/core/utils/navigation_utils.dart';
-import 'package:myapp/presentation/user/user_bag_screen.dart';
-import 'package:myapp/presentation/user/user_dashboard_screen.dart';
-import 'package:myapp/core/widgets/custom_header.dart';
 import 'package:myapp/core/widgets/custom_footer.dart';
-import 'package:myapp/presentation/user/user_navigator_screen.dart';
-import 'package:myapp/presentation/user/user_person_screen.dart';
+import 'package:myapp/core/widgets/custom_header.dart';
+import 'package:myapp/presentation/user/screens/user_dashboard_screen.dart';
+import 'package:myapp/presentation/user/screens/user_favorite_screen.dart';
+import 'package:myapp/presentation/user/screens/user_navigator_screen.dart';
+import 'package:myapp/presentation/user/screens/user_person_screen.dart';
 
-class UserFavoriteScreen extends StatefulWidget {
+
+class UserBagScreen extends StatefulWidget {
   @override
-  _UserFavoriteScreenState createState() => _UserFavoriteScreenState();
+  _UserBagScreenState createState() => _UserBagScreenState();
 }
 
-class _UserFavoriteScreenState extends State<UserFavoriteScreen> {
-  int _currentIndex = 3; // Cambiamos el índice a 3 para el icono de favoritos
+class _UserBagScreenState extends State<UserBagScreen> {
+  int _currentIndex = 1; // Posición de "Bolsa" en el footer
 
   void _onIconTap(int index) {
     setState(() {
       _currentIndex = index;
     });
-    // Usa la función de navegación sin animación
+
+    // Navega según el índice seleccionado
     switch (index) {
       case 0:
         navigateWithoutAnimation(context, UserNavigatorScreen());
@@ -32,7 +34,7 @@ class _UserFavoriteScreenState extends State<UserFavoriteScreen> {
         navigateWithoutAnimation(context, UserDashboardScreen());
         break;
       case 3:
-        navigateWithoutAnimation(context, UserFavoriteScreen()); // Pantalla actual
+        navigateWithoutAnimation(context, UserFavoriteScreen());
         break;
       case 4:
         navigateWithoutAnimation(context, UserPersonScreen());
@@ -44,14 +46,14 @@ class _UserFavoriteScreenState extends State<UserFavoriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHeader(
-        title: "Favorites",
+        title: "Mi Bolsa",
         onNotificationTap: () {},
         onGridTap: () {},
         onSearchTap: () {},
         onTuneTap: () {},
       ),
       body: Center(
-        child: Text("Aquí irán las Cards de Favoritos"),
+        child: Text("Esta es tu bolsa de compras."),
       ),
       bottomNavigationBar: CustomFooter(
         currentIndex: _currentIndex,

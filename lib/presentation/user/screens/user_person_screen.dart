@@ -1,24 +1,27 @@
+// user_person_screen.dart
 import 'package:flutter/material.dart';
 import 'package:myapp/core/utils/navigation_utils.dart';
-import 'package:myapp/core/widgets/custom_header.dart';
 import 'package:myapp/core/widgets/custom_footer.dart';
-import 'package:myapp/presentation/user/user_dashboard_screen.dart';
-import 'package:myapp/presentation/user/user_favorite_screen.dart';
-import 'package:myapp/presentation/user/user_navigator_screen.dart';
-import 'package:myapp/presentation/user/user_person_screen.dart';
+import 'package:myapp/core/widgets/custom_header.dart';
+import 'package:myapp/presentation/user/screens/user_navigator_screen.dart';
+import 'package:myapp/presentation/user/screens/user_bag_screen.dart';
+import 'package:myapp/presentation/user/screens/user_dashboard_screen.dart';
+import 'package:myapp/presentation/user/screens/user_favorite_screen.dart';
 
-class UserBagScreen extends StatefulWidget {
+class UserPersonScreen extends StatefulWidget {
   @override
-  _UserBagScreenState createState() => _UserBagScreenState();
+  _UserPersonScreenState createState() => _UserPersonScreenState();
 }
 
-class _UserBagScreenState extends State<UserBagScreen> {
-  int _currentIndex = 1; // Ícono de "Bag" como seleccionado
+class _UserPersonScreenState extends State<UserPersonScreen> {
+  int _currentIndex = 4; // Posición de "Perfil" en el footer
 
   void _onIconTap(int index) {
     setState(() {
       _currentIndex = index;
     });
+
+    // Navega según el índice seleccionado
     switch (index) {
       case 0:
         navigateWithoutAnimation(context, UserNavigatorScreen());
@@ -42,14 +45,14 @@ class _UserBagScreenState extends State<UserBagScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHeader(
-        title: "Bag",
+        title: "Perfil",
         onNotificationTap: () {},
         onGridTap: () {},
         onSearchTap: () {},
         onTuneTap: () {},
       ),
       body: Center(
-        child: Text("Aquí irán los artículos de la bolsa"),
+        child: Text("Aquí está tu perfil."),
       ),
       bottomNavigationBar: CustomFooter(
         currentIndex: _currentIndex,

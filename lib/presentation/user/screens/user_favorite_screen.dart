@@ -1,20 +1,20 @@
-// UserDashboardScreen
+// user_favorite_screen.dart
 import 'package:flutter/material.dart';
 import 'package:myapp/core/utils/navigation_utils.dart';
 import 'package:myapp/core/widgets/custom_footer.dart';
 import 'package:myapp/core/widgets/custom_header.dart';
-import 'package:myapp/presentation/user/user_bag_screen.dart';
-import 'package:myapp/presentation/user/user_favorite_screen.dart';
-import 'package:myapp/presentation/user/user_navigator_screen.dart';
-import 'package:myapp/presentation/user/user_person_screen.dart';
+import 'package:myapp/presentation/user/screens/user_bag_screen.dart';
+import 'package:myapp/presentation/user/screens/user_dashboard_screen.dart';
+import 'package:myapp/presentation/user/screens/user_navigator_screen.dart';
+import 'package:myapp/presentation/user/screens/user_person_screen.dart';
 
-class UserDashboardScreen extends StatefulWidget {
+class UserFavoriteScreen extends StatefulWidget {
   @override
-  _UserDashboardScreenState createState() => _UserDashboardScreenState();
+  _UserFavoriteScreenState createState() => _UserFavoriteScreenState();
 }
 
-class _UserDashboardScreenState extends State<UserDashboardScreen> {
-  int _currentIndex = 2; // Dashboard es el icono central
+class _UserFavoriteScreenState extends State<UserFavoriteScreen> {
+  int _currentIndex = 3; // Posición de "Favoritos" en el footer
 
   void _onIconTap(int index) {
     setState(() {
@@ -45,14 +45,14 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHeader(
-        title: "Dashboard",
+        title: "Mis Favoritos",
         onNotificationTap: () {},
         onGridTap: () {},
         onSearchTap: () {},
         onTuneTap: () {},
       ),
       body: Center(
-        child: Text("Aquí irán las Cards"),
+        child: Text("Aquí están tus favoritos."),
       ),
       bottomNavigationBar: CustomFooter(
         currentIndex: _currentIndex,
