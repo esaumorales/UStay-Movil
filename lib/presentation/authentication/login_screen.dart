@@ -1,8 +1,47 @@
-// LoginScreen
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/data/data_service.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final DataService _dataService = DataService();
+  String errorMessage = '';
+
+  Future<void> _login() async {
+    // Obtén el email y contraseña ingresados
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    // Llama a `authenticate` en `DataService`
+    final user = await _dataService.authenticate(email, password);
+
+    if (user == null) {
+      // Si el usuario no se encuentra, muestra un mensaje de error
+      setState(() {
+        errorMessage = 'Correo o contraseña incorrectos';
+      });
+    } else {
+      // Si el usuario existe, redirige según su rol
+      setState(() {
+        errorMessage = '';
+      });
+
+      String userRole =
+          'user'; // Esto puede obtenerse de `user.role` si tienes ese campo en el JSON
+      if (userRole == 'user') {
+        Navigator.pushNamed(context, '/userDashboard');
+      } else if (userRole == 'partner') {
+        Navigator.pushNamed(context, '/partnerDashboard');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +82,7 @@ class LoginScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         fillColor: Color(0xFFE9E9E9),
                         filled: true,
@@ -51,22 +91,6 @@ class LoginScreen extends StatelessWidget {
                         border: UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: Colors.grey, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(8),
                             bottomRight: Radius.circular(8),
@@ -81,6 +105,7 @@ class LoginScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         fillColor: Color(0xFFE9E9E9),
@@ -95,40 +120,27 @@ class LoginScreen extends StatelessWidget {
                             bottomRight: Radius.circular(8),
                           ),
                         ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 12),
+
+                  // Mensaje de error
+                  if (errorMessage.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        errorMessage,
+                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      ),
+                    ),
                   const SizedBox(height: 12),
 
                   // Botón de Ingresar
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
-                      onTap: () {
-                        // Lógica de autenticación y redirección
-                        String userRole = 'user';
-                        if (userRole == 'user') {
-                          Navigator.pushNamed(context, '/userDashboard');
-                        } else if (userRole == 'partner') {
-                          Navigator.pushNamed(context, '/partnerDashboard');
-                        }
-                      },
+                      onTap: _login,
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(20),

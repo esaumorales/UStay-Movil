@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/data/data_service.dart';
+import 'package:myapp/domain/user.dart';
+import 'package:myapp/domain/person.dart';
 
 class RegisterStepOneScreen extends StatelessWidget {
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _middleNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,18 +69,22 @@ class RegisterStepOneScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              _buildTextField("Nombres"),
+              _buildTextField("Nombres", _firstNameController),
               SizedBox(height: 15),
-              _buildTextField("Apellido paterno"),
+              _buildTextField("Apellido paterno", _lastNameController),
               SizedBox(height: 15),
-              _buildTextField("Apellido materno"),
+              _buildTextField("Apellido materno", _middleNameController),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RegisterStepTwoScreen(),
+                      builder: (context) => RegisterStepTwoScreen(
+                        firstName: _firstNameController.text,
+                        lastName: _lastNameController.text,
+                        middleName: _middleNameController.text,
+                      ),
                     ),
                   );
                 },
@@ -129,8 +140,9 @@ class RegisterStepOneScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String hintText) {
+  Widget _buildTextField(String hintText, TextEditingController controller) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         labelText: hintText,
         labelStyle: GoogleFonts.inter(color: Colors.black),
@@ -165,6 +177,53 @@ class RegisterStepOneScreen extends StatelessWidget {
 }
 
 class RegisterStepTwoScreen extends StatelessWidget {
+  final String firstName;
+  final String lastName;
+  final String middleName;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final DataService _dataService = DataService();
+
+  RegisterStepTwoScreen({
+    required this.firstName,
+    required this.lastName,
+    required this.middleName,
+  });
+
+  void _registerUser(BuildContext context) async {
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Las contraseñas no coinciden")),
+      );
+      return;
+    }
+
+    final newPerson = Person(
+      id: DateTime.now().millisecondsSinceEpoch,
+      nombre: firstName,
+      apellidoPaterno: lastName,
+      apellidoMaterno: middleName,
+      fechaRegistro: DateTime.now(),
+    );
+
+    final newUser = User(
+      id: newPerson.id,
+      correo: _emailController.text,
+      password: _passwordController.text,
+      persona: newPerson,
+    );
+
+    await _dataService.registerUser(newUser);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Usuario registrado exitosamente")),
+    );
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,16 +284,21 @@ class RegisterStepTwoScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              _buildTextField("Correo"),
+              Text(
+                "Nombre: $firstName $lastName $middleName",
+                style: GoogleFonts.inter(fontSize: 16),
+              ),
+              SizedBox(height: 20),
+              _buildTextField("Correo", _emailController),
               SizedBox(height: 15),
-              _buildTextField("Ingrese contraseña"),
+              _buildTextField("Ingrese contraseña", _passwordController,
+                  obscureText: true),
               SizedBox(height: 15),
-              _buildTextField("Repita contraseña"),
+              _buildTextField("Repita contraseña", _confirmPasswordController,
+                  obscureText: true),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  // Aquí puedes agregar el método de registro
-                },
+                onPressed: () => _registerUser(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
@@ -253,6 +317,21 @@ class RegisterStepTwoScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              Text(
+                "o bien",
+                style: GoogleFonts.inter(fontSize: 16, color: Colors.black54),
+              ),
+              SizedBox(height: 16),
+              _buildSocialButton(
+                "Continuar con Google",
+                "assets/images/common/google-logo.png",
+              ),
+              SizedBox(height: 16),
+              _buildSocialButton(
+                "Continuar con Facebook",
+                "assets/images/common/facebook-logo.png",
+              ),
             ],
           ),
         ),
@@ -260,13 +339,38 @@ class RegisterStepTwoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String hintText) {
+  Widget _buildTextField(String hintText, TextEditingController controller,
+      {bool obscureText = false}) {
     return TextField(
+      controller: controller,
+      obscureText: obscureText,
       decoration: InputDecoration(
         labelText: hintText,
         labelStyle: GoogleFonts.inter(color: Colors.black),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialButton(String text, String asset) {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: () {},
+        icon: Image.asset(asset, width: 20),
+        label: Text(
+          text,
+          style: GoogleFonts.inter(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+        ),
+        style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.symmetric(vertical: 12),
+          side: BorderSide(color: Colors.grey),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
     );

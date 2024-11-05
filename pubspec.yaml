@@ -62,13 +62,28 @@ flutter:
     - assets/images/common/splash_screen_logo.png
     - assets/images/common/register-logo.png
 
-    #ICons
+    #Icons
     - assets/icons/icon-home.png
     - assets/icons/icon-buy.png
     - assets/icons/icon-navigator.png
     - assets/icons/icon-favorite.png
     - assets/icons/icon-person.png
     - assets/icons/icon-next.png
+
+    #Data
+    - assets/data/usuario.json
+    - assets/data/persona.json
+    - assets/data/partner.json
+    - assets/data/zona.json
+    - assets/data/edificio.json
+    - assets/data/departamento.json
+    - assets/data/tipo.json
+    - assets/data/cuarto.json
+    - assets/data/periodo.json
+    - assets/data/especificaciones.json
+    - assets/data/relation_6.json
+    - assets/data/reseñas.json
+    - assets/data/favoritos.json
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

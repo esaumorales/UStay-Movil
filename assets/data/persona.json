@@ -1,0 +1,9 @@
+[
+  {
+    "id_persona": 1,
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "fecha_registro": "2024-01-01",
+    "USUARIO_id_usuario": 1
+  }
+]
