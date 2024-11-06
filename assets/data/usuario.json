@@ -1,7 +1,8 @@
 [
   {
     "id_usuario": 1,
-    "correo": "123@123.com",
-    "password": "123"
+    "correo": "1@gmail.com",
+    "contrasena": "1",
+    "persona": { "id_persona": 1 }
   }
 ]

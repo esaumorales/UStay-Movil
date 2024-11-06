@@ -2,55 +2,91 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:myapp/domain/user.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DataService {
-  // Carga los datos de un archivo JSON específico
+  // Obtiene la ruta del archivo en el directorio de documentos
+  Future<String> _getDocumentPath(String filename) async {
+    final directory = await getApplicationDocumentsDirectory();
+    return '${directory.path}/$filename';
+  }
+
+  // Carga los datos de un archivo JSON específico y copia de `assets` si no existe
   Future<List<dynamic>> _loadJsonData(String path) async {
-    final String response = await rootBundle.loadString(path);
+    final filePath = await _getDocumentPath(path);
+    final file = File(filePath);
+
+    // Si el archivo no existe en el directorio de documentos, cópialo desde `assets`
+    if (!file.existsSync()) {
+      final String assetData = await rootBundle.loadString('assets/data/$path');
+      await file.writeAsString(assetData);
+    }
+
+    final String response = await file.readAsString();
     return json.decode(response);
   }
 
   // Autenticación: carga `usuario.json` y busca el usuario
   Future<User?> authenticate(String email, String password) async {
-    final List<dynamic> usuariosData =
-        await _loadJsonData('assets/data/usuario.json');
-    final List<dynamic> personasData =
-        await _loadJsonData('assets/data/persona.json');
-
     try {
-      // Encuentra el usuario en `usuario.json`
-      final userJson = usuariosData.firstWhere(
-        (user) => user['correo'] == email && user['contrasena'] == password,
-      );
+      final List<dynamic> usuariosData = await _loadJsonData('usuario.json');
+      final List<dynamic> personasData = await _loadJsonData('persona.json');
 
-      // Encuentra la persona asociada en `persona.json`
+      print('Usuarios cargados: $usuariosData');
+      print('Personas cargadas: $personasData');
+      print('Email buscado: $email');
+      print('Contraseña buscada: $password');
+
+      String emailLower = email.trim().toLowerCase();
+      String passwordTrimmed = password.trim();
+
+      final userJson = usuariosData.firstWhere((user) {
+        String userCorreo = user['correo']?.trim()?.toLowerCase() ?? '';
+        String userContrasena = user['contrasena']?.trim() ?? '';
+
+        print(
+            "Comparando con correo en JSON: $userCorreo y contraseña en JSON: $userContrasena");
+        return userCorreo == emailLower && userContrasena == passwordTrimmed;
+      }, orElse: () => null);
+
+      if (userJson == null) {
+        print(
+            "Usuario no encontrado con el correo y contraseña proporcionados.");
+        return null;
+      }
+
       final personaJson = personasData.firstWhere(
         (persona) => persona['id_persona'] == userJson['persona']['id_persona'],
+        orElse: () => null,
       );
 
-      // Combina la información de usuario y persona
+      if (personaJson == null) {
+        print("Persona asociada no encontrada.");
+        return null;
+      }
+
+      print("Usuario encontrado y autenticado con éxito.");
       return User.fromJson({
         ...userJson,
         'persona': personaJson,
       });
     } catch (e) {
+      print("Error en la autenticación: $e");
       return null;
     }
   }
 
   // Registra un nuevo usuario y persona
   Future<void> registerUser(User newUser) async {
-    // Cargar datos actuales
-    final List<dynamic> usuarios =
-        await _loadJsonData('assets/data/usuario.json');
-    final List<dynamic> personas =
-        await _loadJsonData('assets/data/persona.json');
+    final usuarioPath = await _getDocumentPath('usuario.json');
+    final personaPath = await _getDocumentPath('persona.json');
 
-    // Generar un nuevo ID para el usuario y la persona
+    final List<dynamic> usuarios = await _loadJsonData('usuario.json');
+    final List<dynamic> personas = await _loadJsonData('persona.json');
+
     final newPersonId = DateTime.now().millisecondsSinceEpoch;
     final userId = newPersonId;
 
-    // Crear los datos para la nueva persona
     final personaData = {
       'id_persona': newPersonId,
       'nombre': newUser.persona.nombre,
@@ -60,7 +96,6 @@ class DataService {
     };
     personas.add(personaData);
 
-    // Crear los datos para el nuevo usuario
     final userData = {
       'id_usuario': userId,
       'correo': newUser.correo,
@@ -69,8 +104,7 @@ class DataService {
     };
     usuarios.add(userData);
 
-    // Guardar los datos actualizados en los archivos respectivos
-    await File('assets/data/persona.json').writeAsString(json.encode(personas));
-    await File('assets/data/usuario.json').writeAsString(json.encode(usuarios));
+    await File(personaPath).writeAsString(json.encode(personas));
+    await File(usuarioPath).writeAsString(json.encode(usuarios));
   }
 }

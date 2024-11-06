@@ -2,8 +2,8 @@
   {
     "id_persona": 1,
     "nombre": "Juan",
-    "apellido": "Pérez",
-    "fecha_registro": "2024-01-01",
-    "USUARIO_id_usuario": 1
+    "apellido_paterno": "Perez",
+    "apellido_materno": "Gomez",
+    "fecha_registro": "2023-11-01T00:00:00.000Z"
   }
 ]
