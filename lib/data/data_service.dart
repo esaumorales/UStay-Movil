@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:myapp/domain/user.dart';
+import 'package:myapp/domain/entities/partner.dart';
+import 'package:myapp/domain/entities/room.dart';
+import 'package:myapp/domain/entities/user.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DataService {
@@ -106,5 +108,26 @@ class DataService {
 
     await File(personaPath).writeAsString(json.encode(personas));
     await File(usuarioPath).writeAsString(json.encode(usuarios));
+  }
+
+  //Partner
+  Future<List<Partner>> fetchPartners() async {
+    final String response =
+        await rootBundle.loadString('assets/data/partner.json');
+    final List<dynamic> data = json.decode(response);
+    return data.map((json) => Partner.fromJson(json)).toList();
+  }
+
+  //Room
+  Future<List<Room>> fetchRooms() async {
+    try {
+      final String response =
+          await rootBundle.loadString('assets/data/cuarto.json');
+      final List<dynamic> data = json.decode(response);
+      return data.map((json) => Room.fromJson(json)).toList();
+    } catch (e) {
+      print("Error al cargar rooms: $e");
+      return [];
+    }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/data/data_service.dart';
-import 'package:myapp/domain/user.dart';
-import 'package:myapp/domain/person.dart';
+import 'package:myapp/domain/entities/user.dart';
+import 'package:myapp/domain/entities/person.dart';
 
 class RegisterStepOneScreen extends StatelessWidget {
   final TextEditingController _firstNameController = TextEditingController();

@@ -1,4 +1,4 @@
-import 'package:myapp/domain/person.dart';
+import 'package:myapp/domain/entities/person.dart';
 
 class User {
   final int id;

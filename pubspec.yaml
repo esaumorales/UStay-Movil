@@ -63,6 +63,7 @@ flutter:
     - assets/images/common/facebook-logo.png
     - assets/images/common/splash_screen_logo.png
     - assets/images/common/register-logo.png
+    - assets/images/common/room_placeholder.png
 
     #Icons
     - assets/icons/icon-home.png
@@ -71,6 +72,10 @@ flutter:
     - assets/icons/icon-favorite.png
     - assets/icons/icon-person.png
     - assets/icons/icon-next.png
+    - assets/icons/icon-filter.png
+    - assets/icons/icon-notification.png
+    - assets/icons/icon-search.png
+    - assets/icons/icon-grid.png
 
     #Data
     - assets/data/usuario.json

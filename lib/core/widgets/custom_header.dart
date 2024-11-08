@@ -25,51 +25,78 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Logo en el lado izquierdo con tamaño ajustado a 100
           Image.asset(
             'assets/images/common/app-logo-dashboard.png',
-            width: 150,
-            height: 150,
+            width: 100,
+            height: 100,
+            fit: BoxFit.contain,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon:
-                        Icon(Icons.notifications_outlined, color: Colors.white),
-                    onPressed: onNotificationTap,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.grid_view, color: Colors.white),
-                    onPressed: onGridTap,
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.search, color: Colors.white),
-                    onPressed: onSearchTap,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.tune, color: Colors.white),
-                    onPressed: onTuneTap,
-                  ),
-                ],
-              ),
-            ],
-          ),
+          // Iconos en el lado derecho organizados en 2x2 con mayor padding superior
+          // Padding(
+          //   padding: const EdgeInsets.only(
+          //       top: 10.0), // Espacio superior para bajar más los iconos
+          //   child: Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     crossAxisAlignment: CrossAxisAlignment.end,
+          //     children: [
+          //       Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           IconButton(
+          //             icon: Image.asset(
+          //               'assets/icons/icon-notification.png',
+          //               width: 24,
+          //               height: 24,
+          //             ),
+          //             onPressed: onNotificationTap,
+          //             padding: EdgeInsets.zero,
+          //           ),
+          //           SizedBox(width: 8),
+          //           IconButton(
+          //             icon: Image.asset(
+          //               'assets/icons/icon-grid.png',
+          //               width: 24,
+          //               height: 24,
+          //             ),
+          //             onPressed: onGridTap,
+          //             padding: EdgeInsets.zero,
+          //           ),
+          //         ],
+          //       ),
+          //       SizedBox(height: 8), // Espacio entre filas
+          //       Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           IconButton(
+          //             icon: Image.asset(
+          //               'assets/icons/icon-search.png',
+          //               width: 24,
+          //               height: 24,
+          //             ),
+          //             onPressed: onSearchTap,
+          //             padding: EdgeInsets.zero,
+          //           ),
+          //           SizedBox(width: 8),
+          //           IconButton(
+          //             icon: Image.asset(
+          //               'assets/icons/icon-filter.png',
+          //               width: 24,
+          //               height: 24,
+          //             ),
+          //             onPressed: onTuneTap,
+          //             padding: EdgeInsets.zero,
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
   }
 
-  // Implementación de `PreferredSizeWidget` con el tamaño preferido de `AppBar`
   @override
-  Size get preferredSize => Size.fromHeight(100.0);
+  Size get preferredSize => Size.fromHeight(100.0); // Ajuste de altura a 100
 }
